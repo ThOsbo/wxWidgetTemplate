@@ -66,7 +66,7 @@ That should be everything for downloading and building wxWidgets from source. Th
 
 ## Setting up VSCode
 
-So I briefly mentioned earlier that the VSCode website goes through some of this but I'll go through it all here. There was also a very useful video I found for this will I'll link in.
+So I briefly mentioned earlier that the VSCode website goes through some of this but I'll go through it all here. There was also a very useful video I found for this which I'll link here.
 
 [Setup a basic wxWidgets 3.1.3 project with VS Code and MinGW](https://www.youtube.com/watch?v=tHMGA0jIl3Y)
 
