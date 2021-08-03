@@ -4,7 +4,6 @@
             "name": "GCC",
             "includePath": [
                 "${workspaceFolder}\\include/**",
-                "${workspaceFolder}\\src/**",
                 "${WXWIN}\\include/**",
                 "${WXWIN}\\lib\\gcc_dll/**"
             ],
