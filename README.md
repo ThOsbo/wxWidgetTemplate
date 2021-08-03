@@ -4,6 +4,7 @@ I'll first go through setting up C++ and MinGW, then downloading and building wx
 There are a variety of sources for doing all this online and I'll link all the ones I used here.
 
 ## Setting up C++
+
 [Using GCC with MinGW](https://code.visualstudio.com/docs/cpp/config-mingw)
 
 First off I started here, the instructions are easy enough to follow.
@@ -34,3 +35,31 @@ With that we're done with MSYS2, next you need to add the compiler path to the s
 18. Then click "OK" to finish up
 
 The VSCode website then goes through setting up VSCode and checking the installation worked. I found it helpful but I'll cover all that later. Firstly, I'd restart your device to make sure everything updates correctly. I didn't and didn't realise there was an issue for quite a while since gFortran also has a g++ compiler (no, I didn't know initally and yes, this cleared up alot of my initial confusion as to why this was all necessary).
+
+## Setting up wxWidget
+
+So now for downloading and building wxWidgets. It mentions there are a few prebuilt binaries but it recommends building from source which is what I'll go through here.
+
+[wxWidgets download page](https://www.wxwidgets.org/downloads/)
+
+1. There are a few different releases shown on the download page (I downloaded the latest one 3.1.5), pick one and download the "Windows ZIP" file from the "Source Code" section
+2. You then want to extract the ZIP to any directory (I created a ```C++\wxWidgets315``` folder in ```Documents```) this will possibly take a few minutes
+3. You then want to create another enironment variable containing the full path to the directory you extracted the ZIP file to (follow point 13 and 14 from the previous section)
+4. Under the systems variables section select "New..."
+5. For the variable name input ```WXWIN``` and for the value copy in the full path to your wxWidgets directory. Then press "OK" to finish up.
+
+[Building wxWidgets](https://wiki.wxwidgets.org/Compiling_wxWidgets_with_MinGW)
+
+I then followed the instructions from here for the most part.
+
+6. Search "cmd" from the start menu and open the "Command Prompt" (should be at the top)
+7. ```cd``` into the directory you extracted the ZIP file to (```cd %WXWIN%``` should do it if the environment variable is set up properly).
+8. Next ```cd .\build\msw```
+9. Then to build the library you want to input ```mingw32-make -f makefile.gcc SHARED=1 UNICODE=1 BUILD=debug```, this will build a dynamic debug library.
+10. If this works properly it should take ages. So now all you have to do is wait (or find somthing to do like have breakfast/lunch/dinner, go for a walk, read a book, clean a bathroom)
+
+If there are any errors at this stage, try rebuilding or restarting your device then rebuilding. You can also clean it by appending ```clean``` to the command mentioned in this sections point 9 and then build again.
+
+11. To build the release verion of the library just run ```mingw32-make -f makefile.gcc SHARED=1 UNICODE=1 BUILD=release``` where ```BUILD``` is changed from ```debug``` to ```release```
+
+That should be everything for downloading and building wxWidgets from source. This should create a DLL under ```lib\gcc_dll``` in the your wxWidgets directory. Inside this folder you should also find an ```mswud``` folder for the debug version and an ```mswu``` folder for the release version (and then a load of other stuff).
