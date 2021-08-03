@@ -1,0 +1,73 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Release",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"${workspaceFolder}\\src\\*.cpp",
+				"-o",
+				"${workspaceFolder}\\build\\release\\${fileBasenameNoExtension}.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"${WXWIN}\\include",
+				"-I",
+				"${WXWIN}\\lib\\gcc_dll\\mswu",
+				"-L",
+				"${WXWIN}\\lib\\gcc_dll",
+				"-l",
+				"wxmsw31u_core",
+				"-l",
+				"wxbase31u"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		},
+
+		{
+			"type": "cppbuild",
+			"label": "Debug",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-g",
+				"${workspaceFolder}\\src\\*.cpp",
+				"-o",
+				"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"${WXWIN}\\include",
+				"-I",
+				"${WXWIN}\\lib\\gcc_dll\\mswud",
+				"-L",
+				"${WXWIN}\\lib\\gcc_dll",
+				"-l",
+				"wxmsw31ud_core",
+				"-l",
+				"wxbase31ud"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		}
+	]
+}
