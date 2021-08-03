@@ -72,6 +72,8 @@ So I briefly mentioned earlier that the VSCode website goes through some of this
 
 This video was really helpful for setting things up. It goes through everything I mentioned here but uses CMake to build the wxWidgets libraries instead of the command line. I've set up this repository in almost exactly the same way they do in the video (minus the build folder containing the ```.dll``` files). I had a few warnings still upon finishing but I'll go through how I cleared them up here.
 
+Before you start however you should set up your workspace, simply make three folders ```build```, ```include``` and ```src```. The ```include``` folder will contain all your header (```.h```) files and the ```src``` folder will contain all your C++ (```.cpp```) files. In the ```build``` folder create two more folders ```debug``` and ```release``` which will store the executables for the debug and release versions respectively. The corresponding core and base ```.dll``` files will go in both of these as well but I'll go through these in a bit. Your workspace should now look like the workspace from the video and this repository (plus a ```build``` folder).
+
 ### Setting up tasks.json
 
 1. Go to the "Terminal" tab at the top and click it, then go to the bottom of the drop down and click "Configure Default Build Task"
@@ -106,4 +108,29 @@ That should be all for setting up "tasks.json" for the debug verion. If you have
 18. Then add (on seperate lines) ```${WXWIN}\include/**``` and ```${WXWIN}\lib\gcc_dll/**```
 19. Finally, under the "Defines" section, add (on seperate lines) ```WXUSINGDLL``` and ```GCCVERSION``` (this will help fix a warning about not finding the correct source file later)
 
-At this point everything should work fine although a warning along the line of "can't find source ..\..\..\lib\vc_dll\wx\setup.h" might be showing up. "vc" is the default prefix used for the library, everything should however build and run fine if you have completed the above. 
+At this point everything should work fine although a warning along the line of ```can't find source ..\..\..\lib\vc_dll\wx\setup.h``` might be showing up. The default prefix used for the library set up this way is "vc", everything should however build and run fine if you have completed the above. But this is how I eventually got rid of this warning.
+
+20. In the folder you extracted wxWidgets to go to ```%WXWIN%\include\msvc\wx``` and open the ```setup.h``` file there in Notepad
+21. Your looking for the section the defines ```wxCOMPILER_PREFIX``` it should start on line 54 but you can just ```Ctrl + h``` and search for it that way
+22. You want to go to a point right down the bottom of this section just before the ```#else``` statement (around line 87)
+23. At this point between the ```#endif``` and ```#else``` statement add (no indentation) ```#elif defined(GCCVERSION)``` then on a new line (indent to be in line with the ```#endif``` just above) add ```#define wxCOMPILER_PREFIX gcc```
+
+This should clear up the warning since it will now look for ```..\..\..\lib\gcc_dll\wx\setup.h``` instead of what it was previously looking for (and inevitably not finding).
+
+### Setting up launch.json
+
+This isn't particularly necessary but is convenient, it just allows you to compile and then run the program by pressing ```F5```.
+
+24. Go to the "Run" tab at the top and click it, then from the drop down click on "Add Configuration..."
+25. From the command palette drop down select "C++ (GDB/LLDB)" then click on "g++.exe - Build and debug active file" (make sure to select the one with the correct compiler ```mingw64\bin\g++.exe```)
+
+For some odd reason I had it list the MinGW compiler twice, one with ```\``` and one with ```/```. I have no idea why but it didn't seem to matter which one I picked.
+
+26. This should open launch.json (if it comes up with an error just click "Abort"), at this point I changed ```name``` to just ```g++.exe - Build and debug```
+27. Change ```program``` to ```${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe```
+28. Make sure that ```preLaunchTask``` is set to ```Debug``` (the task you set in tasks.json)
+
+Now when you press ```F5``` the program should build the debug version and then run the executable without having to use the terminal or going into file explorer.
+
+
+And that's it, hopefully everything should be set up and working fine now. I believe I've covered all the points I had trouble with so hopefully you've found this helpful (if just a tad long).
